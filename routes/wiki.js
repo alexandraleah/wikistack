@@ -19,6 +19,7 @@ wikiRouter.post('/', async (req, res, next) => {
 
   try {
     await page.save();
+    console.log(page.title, page.content);
     res.redirect('/');
   } catch (error) {
     next(error);
@@ -28,3 +29,4 @@ wikiRouter.post('/', async (req, res, next) => {
 wikiRouter.get('/add', (req, res, next) => {
   res.send(viewsIndex.addPage());
 });
+
