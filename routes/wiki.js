@@ -19,7 +19,6 @@ wikiRouter.post('/', async (req, res, next) => {
 
   try {
     await page.save();
-    console.log(page.title, page.content);
     res.redirect('/');
   } catch (error) {
     next(error);
@@ -30,3 +29,14 @@ wikiRouter.get('/add', (req, res, next) => {
   res.send(viewsIndex.addPage());
 });
 
+wikiRouter.get('/:slug', async (req, res, next) => {
+  //look up slug in database
+  try {
+    const page = await Page.findOne({
+      where: { slug: req.params.slug },
+    });
+    res.send(viewsIndex.wikiPage(page));
+  } catch (error) {
+    next(error);
+  }
+});

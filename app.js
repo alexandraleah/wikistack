@@ -19,7 +19,10 @@ app.get('/', (req, res, next) => {
 });
 
 const init = async () => {
-  await models.db.sync({ force: true });
+  await models.db
+    .sync
+    // { force: true }
+    ();
 
   app.listen(1500, () => {
     console.log('App is listening on port 1500');
