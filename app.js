@@ -4,7 +4,12 @@ const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
 const index = require('./views/index');
-console.log(index);
+const pg = require('pg');
+const { db } = require('./models');
+db.authenticate().then(() => {
+  console.log('connected to the database');
+});
+
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
