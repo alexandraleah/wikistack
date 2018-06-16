@@ -6,6 +6,8 @@ const path = require('path');
 const models = require('./models');
 const wikiRoute = require('./routes/wiki');
 const userRoute = require('./routes/user');
+const { Page } = require('./models');
+const main = require('./views/main');
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -14,8 +16,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/wiki', wikiRoute);
 app.use('/user', userRoute);
 
-app.get('/', (req, res, next) => {
-  res.redirect('/wiki');
+app.get('/', async (req, res, next) => {
+  try {
+    let pages = await Page.findAll();
+    res.send(main(pages));
+  } catch (error) {
+    next(error);
+  }
 });
 
 const init = async () => {
@@ -30,3 +37,6 @@ const init = async () => {
 };
 
 init();
+
+// Send the HTML for index page, invoking the main page module with an array of found pages to the
+// Edit the main page module to loop over the pages, displaying a link to each page

@@ -19,7 +19,7 @@ wikiRouter.post('/', async (req, res, next) => {
 
   try {
     await page.save();
-    res.redirect('/');
+    res.redirect(`/wiki/${page.slug}`);
   } catch (error) {
     next(error);
   }
