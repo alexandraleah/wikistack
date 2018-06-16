@@ -16,13 +16,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/wiki', wikiRoute);
 app.use('/user', userRoute);
 
-app.get('/', async (req, res, next) => {
-  try {
-    let pages = await Page.findAll();
-    res.send(main(pages));
-  } catch (error) {
-    next(error);
-  }
+app.get('/', (req, res, next) => {
+  res.redirect('/wiki');
 });
 
 const init = async () => {

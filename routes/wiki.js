@@ -5,21 +5,32 @@ const { Page } = require('../models');
 
 module.exports = wikiRouter;
 
-wikiRouter.get('/', (req, res, next) => {
-  res.send('retrieve all wiki pages');
+wikiRouter.get('/', async (req, res, next) => {
+  try {
+    let pages = await Page.findAll();
+    res.send(viewsIndex.main(pages));
+  } catch (error) {
+    next(error);
+  }
 });
 
 wikiRouter.post('/', async (req, res, next) => {
   const title = req.body.title;
   const content = req.body.content;
+  const name = req.body.name;
+  const email = req.body.email;
   const page = new Page({
     title: title,
     content: content,
   });
-
+  // const user = new User({
+  //   name: name,
+  //   email: email,
+  // });
   try {
     await page.save();
-    res.redirect(`/wiki/${page.slug}`);
+    // await user.save();
+    res.redirect(`${page.slug}`);
   } catch (error) {
     next(error);
   }

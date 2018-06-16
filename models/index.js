@@ -28,5 +28,5 @@ const User = db.define('user', {
     validate: { isEmail: true },
   },
 });
-
+Page.belongsTo(User, { as: 'author' });
 module.exports = { db, Page, User };
