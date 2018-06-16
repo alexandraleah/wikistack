@@ -14,17 +14,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/wiki', wikiRoute);
-app.use('/user', userRoute);
+app.use('/users', userRoute);
 
 app.get('/', (req, res, next) => {
   res.redirect('/wiki');
 });
 
 const init = async () => {
-  await models.db
-    .sync
-    // { force: true }
-    ();
+  await models.db.sync();
+  // .sync({ force: true });
 
   app.listen(1500, () => {
     console.log('App is listening on port 1500');
